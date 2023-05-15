@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
-project(alds-test C)
+project(alds-tests C)
 
 set(CMAKE_C_STANDARD 11)
 
 option(BUILD_CODE_COVERAGE "Build test with the code coverage artifacts" OFF)
 
 add_compile_options(-Wall)
+if(APPLE)
+    add_compile_options(-Wno-error=unused-command-line-argument)
+endif(APPLE)
 
 # Add definition for tests-related code
 add_definitions(-DUNIT_TEST)
@@ -31,24 +34,9 @@ set(PICKY_DEVELOPER OFF CACHE BOOL "CMocka: Build with picky developer flags" FO
 
 FetchContent_MakeAvailable(cmocka)
 
-#include_directories(../tool/src)
-#include_directories(../)
 
 include_directories(../lib/include)
-#include_directories(../lib/include/tools)
 
-#include_directories(../lib/src/asn1)
-#include_directories(../lib/src/asn1_decoding_fsm)
-#include_directories(../lib/src/public_key)
-#include_directories(../lib/src/x509)
-#include_directories(../lib/src/abstractions)
-#include_directories(../lib/src)
-
-#include_directories(src)
-#include_directories(src/x509)
-#include_directories(src/asn1)
-#include_directories(src/utilities)
-#include_directories(src/other)
 
 set(HEADER_FILES_TO_TEST
         ../lib/include/alds.h
@@ -67,13 +55,13 @@ set(HDR
         ${HEADER_FILES_TO_TEST}
         )
 
-add_executable(alds-test
+add_executable(alds-tests
         ${SRC}
         ${SRC_TO_TEST}
         )
 
 
-target_link_libraries(alds-test cmocka-static)
+target_link_libraries(alds-tests cmocka-static)
 
 # Add code coverage support
 if(BUILD_CODE_COVERAGE)

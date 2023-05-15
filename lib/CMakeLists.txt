@@ -29,3 +29,11 @@ set(LIB_SRC
 SET(LIB_TYPE STATIC)
 
 add_library(alds ${LIB_INSTALL_HEADER_FILES} ${LIB_PRIVATE_HEADER_FILES} ${LIB_SRC})
+
+target_include_directories(alds
+  PUBLIC
+  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+)

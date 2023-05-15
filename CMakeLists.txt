@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
-project(alds_global)
+project(alds-root C)
 
-add_custom_target(ut ALL
-  COMMENT "Unit test target"
-  COMMAND cmake -S ./tests -B ./tests/build && cmake --build ./tests/build
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/
-)
+set(CMAKE_C_STANDARD 11)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DVERBOSE)
+    add_definitions(-DDEBUG)
+endif ()
+
+add_subdirectory(lib)
+add_subdirectory(example)
+add_subdirectory(tests)
