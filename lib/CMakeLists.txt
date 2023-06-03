@@ -13,8 +13,9 @@ include_directories(include)
 
 set(LIB_INSTALL_HEADER_FILES
         include/alds.h
-        include/alds_memgmnt.h
+        include/alds_memmgmt.h
         include/alds_error.h
+        include/simple/stack.h
         )
 
 set(LIB_PRIVATE_HEADER_FILES
@@ -24,6 +25,8 @@ set(LIB_PRIVATE_HEADER_FILES
 set(LIB_SRC
         src/alds.c
         src/alds_memgmnt.c
+        src/simple/stack.c
+        src/simple/queue.c
         )
 
 SET(LIB_TYPE STATIC)

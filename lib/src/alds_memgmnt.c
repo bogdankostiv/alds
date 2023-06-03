@@ -1,4 +1,4 @@
-#include "alds_memgmnt.h"
+#include "alds_memmgmt.h"
 
 static void * alds_malloc_default(size_t size);
 static void * alds_calloc_default(size_t size);
@@ -13,9 +13,9 @@ static alds_memgmnt_t memgmnt_cb = {
 };
 
 alds_err_t alds_init_memmgmnt(const alds_memgmnt_t * cb) {
-    if (NULL != cb && 
-        NULL != cb->alds_malloc_cb && NULL != cb->alds_calloc_cb &&
-        NULL != cb->alds_realloc_cb && NULL != cb->alds_free_cb) {
+    if (NULL == cb || 
+        NULL == cb->alds_malloc_cb || NULL == cb->alds_calloc_cb ||
+        NULL == cb->alds_realloc_cb || NULL == cb->alds_free_cb) {
         return e_alds_err_arg;
     }
 

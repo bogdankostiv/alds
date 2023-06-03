@@ -45,10 +45,14 @@ set(HEADER_FILES_TO_TEST
 set(SRC_TO_TEST
         ../lib/src/alds.c
         ../lib/src/alds_memgmnt.c
+        ../lib/src/simple/stack.c
+        ../lib/src/simple/queue.c
         )
 
 set(SRC
         test.c
+        simple/stack_tests.c
+        simple/queue_tests.c
         )
 
 set(HDR
