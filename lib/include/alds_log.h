@@ -45,6 +45,13 @@ extern "C"
     #define ALDS_LOG_ERROR(module, ...) 
 #endif
 
+
+#define ALDS_LOG_ERROR_NULL_ARG(module)     ALDS_LOG_ERROR(module, "Fn %s, line %d: NULL or invalid arg(s)\n", __func__, __LINE__)
+#define ALDS_LOG_ERROR_ALLOC(module)        ALDS_LOG_ERROR(module, "Fn %s, line %d: allocation failed\n", __func__, __LINE__)
+#define ALDS_LOG_ERROR_FULL(module)         ALDS_LOG_ERROR(module, "Fn %s, line %d: full\n", __func__, __LINE__)
+#define ALDS_LOG_ERROR_EMPTY(module)        ALDS_LOG_ERROR(module, "Fn %s, line %d: empty\n", __func__, __LINE__)
+
+
 /**
  * @brief Callback data type for custom logging implementation
 */

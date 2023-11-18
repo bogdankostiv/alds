@@ -88,6 +88,10 @@ static void alds_buff_dynamic_test(void ** state) {
     assert_null(buffer1.free_cb);
 }
 
+static void alds_dummy_log_cb(__attribute__((__unused__)) const char * const msg, 
+                                __attribute__((__unused__)) va_list va){
+}
+
 int main(int argc, char * argv[]) {
     int result = 0;
 
@@ -107,8 +111,15 @@ int main(int argc, char * argv[]) {
     result |= cmocka_run_group_tests(unit_tests, NULL, NULL);
 
     result |= log_tests();
+
+    // suppress error log messages in unit tests
+    alds_set_log_cb(alds_dummy_log_cb);
+
     result |= stack_tests();
     result |= queue_tests();
+
+    alds_clear_log_cb();
+
 
     if (0 != result) {
         printf("\n\nERROR!!! One or more tests have failed\n");

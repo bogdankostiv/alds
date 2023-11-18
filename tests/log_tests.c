@@ -63,6 +63,8 @@ static void general_log_test(void ** state) {
     alds_set_log_cb(alds_log_module_va_arg);
     ALDS_LOG_INFO("Module", "Some module", (uint32_t) 5);
     assert_int_equal(call_index, 6);
+
+    alds_clear_log_cb();
 }
 
 int log_tests(void) {

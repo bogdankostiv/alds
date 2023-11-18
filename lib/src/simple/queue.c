@@ -1,7 +1,10 @@
 #include "simple/queue.h"
 #include "alds_memory.h"
+#include "alds_log.h"
 #include <string.h>
 #include <stdbool.h>
+
+#define LOG_MODULE_NAME "queue.c"
 
 static bool is_empty(alds_queue_t * ctx);
 static bool is_full(alds_queue_t * ctx);
@@ -21,11 +24,13 @@ static inline size_t next_item_index(alds_queue_t * ctx, size_t item_index) {
 
 alds_err_t alds_queue_init(alds_queue_t * ctx, size_t items, size_t item_size) {
     if (NULL == ctx || 0 == items || 0 == item_size) {
+        ALDS_LOG_ERROR_NULL_ARG(LOG_MODULE_NAME);
         return e_alds_err_arg;
     }
 
     ALDS_DATA_INIT_DYNAMIC(buff, items * item_size);
     if (!is_data_valid(&buff)) {
+        ALDS_LOG_ERROR_ALLOC(LOG_MODULE_NAME);
         return e_alds_err_memalloc;
     }
 
@@ -41,6 +46,7 @@ alds_err_t alds_queue_init(alds_queue_t * ctx, size_t items, size_t item_size) {
 
 alds_err_t alds_queue_init_external(alds_queue_t * ctx, const alds_data_t * buff, size_t item_size) {
     if (NULL == ctx || !is_data_valid(buff) || 0 == item_size) {
+        ALDS_LOG_ERROR_NULL_ARG(LOG_MODULE_NAME);
         return e_alds_err_arg;
     }
 
@@ -56,6 +62,7 @@ alds_err_t alds_queue_init_external(alds_queue_t * ctx, const alds_data_t * buff
 
 void alds_queue_deinit(alds_queue_t * ctx) {
     if (NULL == ctx) {
+        ALDS_LOG_ERROR_NULL_ARG(LOG_MODULE_NAME);
         return;
     }
 
@@ -69,10 +76,12 @@ void alds_queue_deinit(alds_queue_t * ctx) {
 
 alds_err_t alds_queue_push(alds_queue_t * ctx, const void * data) {
     if (NULL == ctx || NULL == data) {
+        ALDS_LOG_ERROR_NULL_ARG(LOG_MODULE_NAME);
         return e_alds_err_arg;
     }
 
     if (is_full(ctx)) {
+        ALDS_LOG_ERROR_FULL(LOG_MODULE_NAME);
         return e_alds_err_full;
     }
 
@@ -85,10 +94,12 @@ alds_err_t alds_queue_push(alds_queue_t * ctx, const void * data) {
 
 alds_err_t alds_queue_pop(alds_queue_t * ctx, void * data) {
     if (NULL == ctx || NULL == data) {
+        ALDS_LOG_ERROR_NULL_ARG(LOG_MODULE_NAME);
         return e_alds_err_arg;
     }
 
     if (is_empty(ctx)) {
+        ALDS_LOG_ERROR_EMPTY(LOG_MODULE_NAME);
         return e_alds_err_empty;
     }
 
