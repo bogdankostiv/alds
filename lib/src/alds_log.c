@@ -36,13 +36,13 @@ static void alds_log_default(const char * const fmt, va_list argp) {
 }
 
 static void alds_log_formatted(uint32_t log_level, const char * const module, const char * const fmt, va_list argp) {
-    uint8_t ext_len = 30;
+    uint8_t ext_len = 40;
     char new_fmt[strlen(fmt) + ext_len + 1];
     
-    char * level_str = log_level == ALDS_LOG_LEVEL_INFO ? "INFO[" :
-                            log_level == ALDS_LOG_LEVEL_WARNING ? "WARNING[" :
-                            log_level == ALDS_LOG_LEVEL_ERROR ? "ERROR[" :
-                            "UNKNOWN[";
+    char * level_str = log_level == ALDS_LOG_LEVEL_INFO ? "ALDS INFO [" :
+                            log_level == ALDS_LOG_LEVEL_WARNING ? "ALDS WARNING [" :
+                            log_level == ALDS_LOG_LEVEL_ERROR ? "ALDS ERROR [" :
+                            "ALDS UNKNOWN [";
     strcpy(new_fmt, level_str);
     ext_len -= strlen(level_str);
 
