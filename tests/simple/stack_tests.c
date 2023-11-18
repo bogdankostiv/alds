@@ -1,7 +1,7 @@
 #include "simple_tests.h"
 #include "alds.h"
 #include "../cmocka_incl.h"
-#include <simple/stack.h>
+#include "simple/stack.h"
 #include <stdio.h>
 
 static void stack_dynamic_positive(void ** state) {
@@ -82,16 +82,15 @@ static void stack_dynamic_negative_arguments(void ** state) {
 static void stack_static_full(void ** state) {
     (void) state; /* unused */
 
-    STATIC_BUFFER(buffer, 2, sizeof(uint16_t));
+    ALDS_DATA_INIT_STATIC(buffer, (2 * sizeof(uint16_t)));
 
     alds_stack_t ctx;
 
-    assert_int_equal(alds_stack_init_static(NULL, buffer, 2 * sizeof(uint16_t), sizeof(uint16_t)), e_alds_err_arg);
-    assert_int_equal(alds_stack_init_static(&ctx, NULL, 2 * sizeof(uint16_t), sizeof(uint16_t)), e_alds_err_arg);
-    assert_int_equal(alds_stack_init_static(&ctx, buffer, 0, sizeof(uint16_t)), e_alds_err_arg);
-    assert_int_equal(alds_stack_init_static(&ctx, buffer, 2 * sizeof(uint16_t), 0), e_alds_err_arg);
+    assert_int_equal(alds_stack_init_external(NULL, &buffer, sizeof(uint16_t)), e_alds_err_arg);
+    assert_int_equal(alds_stack_init_external(&ctx, NULL, sizeof(uint16_t)), e_alds_err_arg);
+    assert_int_equal(alds_stack_init_external(&ctx, &buffer, 0), e_alds_err_arg);
 
-    assert_int_equal(alds_stack_init_static(&ctx, buffer, 2 * sizeof(uint16_t), sizeof(uint16_t)), e_alds_err_success);
+    assert_int_equal(alds_stack_init_external(&ctx, &buffer, sizeof(uint16_t)), e_alds_err_success);
 
     uint16_t data = 2;
     assert_int_equal(alds_stack_push(&ctx, &data), e_alds_err_success);
@@ -119,6 +118,6 @@ int stack_tests(void) {
         cmocka_unit_test(stack_static_full),
     };
 
-    printf("Stack testing:\n");
+    printf("\nStack testing:\n");
     return cmocka_run_group_tests(unit_tests, NULL, NULL);
 }

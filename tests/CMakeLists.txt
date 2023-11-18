@@ -15,6 +15,8 @@ add_definitions(-DUNIT_TEST)
 
 # Verbose mode enabled
 add_definitions(-DVERBOSE)
+# set the lower log level to test it with UT
+add_definitions(-DALDS_LOG_LEVEL=0)
 
 # Add Cmoka for UT
 include(FetchContent)
@@ -44,13 +46,15 @@ set(HEADER_FILES_TO_TEST
 
 set(SRC_TO_TEST
         ../lib/src/alds.c
-        ../lib/src/alds_memgmnt.c
+        ../lib/src/alds_memory.c
+        ../lib/src/alds_log.c
         ../lib/src/simple/stack.c
         ../lib/src/simple/queue.c
         )
 
 set(SRC
         test.c
+        log_tests.c
         simple/stack_tests.c
         simple/queue_tests.c
         )

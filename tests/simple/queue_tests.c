@@ -85,15 +85,14 @@ static void queue_dynamic_negative_arguments(void ** state) {
 static void queue_static_full(void ** state) {
     (void) state; /* unused */
 
-    STATIC_BUFFER(buffer, 2, sizeof(uint16_t));
+    ALDS_DATA_INIT_STATIC(buffer, (2 * sizeof(uint16_t)));
 
     alds_queue_t ctx;
-    assert_int_equal(alds_queue_init_static(NULL, buffer, 2 * sizeof(uint16_t), sizeof(uint16_t)), e_alds_err_arg);
-    assert_int_equal(alds_queue_init_static(&ctx, NULL, 2 * sizeof(uint16_t), sizeof(uint16_t)), e_alds_err_arg);
-    assert_int_equal(alds_queue_init_static(&ctx, buffer, 0, sizeof(uint16_t)), e_alds_err_arg);
-    assert_int_equal(alds_queue_init_static(&ctx, buffer, 2 * sizeof(uint16_t), 0), e_alds_err_arg);
+    assert_int_equal(alds_queue_init_external(NULL, &buffer, sizeof(uint16_t)), e_alds_err_arg);
+    assert_int_equal(alds_queue_init_external(&ctx, NULL, sizeof(uint16_t)), e_alds_err_arg);
+    assert_int_equal(alds_queue_init_external(&ctx, &buffer, 0), e_alds_err_arg);
 
-    assert_int_equal(alds_queue_init_static(&ctx, buffer, 2 * sizeof(uint16_t), sizeof(uint16_t)), e_alds_err_success);
+    assert_int_equal(alds_queue_init_external(&ctx, &buffer, sizeof(uint16_t)), e_alds_err_success);
 
     uint16_t data = 2;
     assert_int_equal(alds_queue_push(&ctx, &data), e_alds_err_success);
@@ -121,6 +120,6 @@ int queue_tests(void) {
         cmocka_unit_test(queue_static_full),
     };
 
-    printf("Queue testing:\n");
+    printf("\nQueue testing:\n");
     return cmocka_run_group_tests(unit_tests, NULL, NULL);
 }

@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "alds.h"
+#include "log_tests.h"
 #include "simple/simple_tests.h"
-#include "alds_memmgmt.h"
 #include "cmocka_incl.h"
 
 static void * alds_malloc_default(size_t size);
@@ -9,7 +10,7 @@ static void * alds_calloc_default(size_t size);
 static void * alds_realloc_default(void *  ptr, size_t new_size);
 static void alds_free_default(void ** ptr);
 
-static alds_memgmnt_t memgmnt_cb = {
+static alds_memory_t mem_cb = {
     .alds_malloc_cb = alds_malloc_default,
     .alds_calloc_cb = alds_calloc_default,
     .alds_realloc_cb = alds_realloc_default,
@@ -39,24 +40,79 @@ static void canary_test(void ** state) {
     assert_int_equal(0, 0);
 }
 
+static void alds_buff_static_test(void ** state) {
+    (void) state; /* unused */
+
+    ALDS_DATA_INIT_STATIC(buffer, 10);
+
+    assert_non_null(buffer.ptr);
+    assert_int_equal(buffer.size, 10);
+    assert_null(buffer.free_cb);
+
+    ((uint8_t *)buffer.ptr)[9] = 100;
+    assert_int_equal(((uint8_t *)buffer.ptr)[9], 100);
+
+    ALDS_DATA_FREE(buffer);
+    assert_null(buffer.ptr);
+    assert_int_equal(buffer.size, 0);
+    assert_null(buffer.free_cb);
+
+    ALDS_DATA_INIT_STATIC(buffer1, 10);
+    ALDS_DATA_PTR_FREE(&buffer1);
+    assert_null(buffer1.ptr);
+    assert_int_equal(buffer1.size, 0);
+    assert_null(buffer1.free_cb);
+}
+
+static void alds_buff_dynamic_test(void ** state) {
+    (void) state; /* unused */
+
+    ALDS_DATA_INIT_DYNAMIC(buffer, 10);
+
+    assert_non_null(buffer.ptr);
+    assert_int_equal(buffer.size, 10);
+    assert_non_null(buffer.free_cb);
+
+    ((uint8_t *)buffer.ptr)[9] = 100;
+    assert_int_equal(((uint8_t *)buffer.ptr)[9], 100);
+
+    ALDS_DATA_FREE(buffer);
+    assert_null(buffer.ptr);
+    assert_int_equal(buffer.size, 0);
+    assert_null(buffer.free_cb);
+
+    ALDS_DATA_INIT_DYNAMIC(buffer1, 10);
+    ALDS_DATA_PTR_FREE(&buffer1);
+    assert_null(buffer1.ptr);
+    assert_int_equal(buffer1.size, 0);
+    assert_null(buffer1.free_cb);
+}
+
 int main(int argc, char * argv[]) {
     int result = 0;
 
-    result = alds_init_memmgmnt(&memgmnt_cb);
+    result = alds_memory_init(&mem_cb);
     if (result != e_alds_err_success) {
         printf("Custom memory allocation init failed:\n");
         return -1;
     }
 
     const struct CMUnitTest unit_tests[] = {
-        cmocka_unit_test(canary_test)
+        cmocka_unit_test(canary_test),
+        cmocka_unit_test(alds_buff_static_test),
+        cmocka_unit_test(alds_buff_dynamic_test)
     };
 
     printf("Unit tests:\n");
     result |= cmocka_run_group_tests(unit_tests, NULL, NULL);
 
+    result |= log_tests();
     result |= stack_tests();
     result |= queue_tests();
+
+    if (0 != result) {
+        printf("\n\nERROR!!! One or more tests have failed\n");
+    }
 
     return result;
 }

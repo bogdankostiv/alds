@@ -1,5 +1,5 @@
-#ifndef ALDS_MEMMGMNT_H
-#define ALDS_MEMMGMNT_H
+#ifndef ALDS_MEMORY_H
+#define ALDS_MEMORY_H
 
 #include <stdlib.h>
 #include <alds_error.h>
@@ -19,17 +19,17 @@ typedef struct {
     alds_calloc_cb_t alds_calloc_cb;
     alds_realloc_cb_t alds_realloc_cb;
     alds_free_cb_t alds_free_cb;
-} alds_memgmnt_t;
+} alds_memory_t;
 
 /**
  * @brief Custom memory management initialisation. The library uses malloc/calloc/calloc/free from C standard library by default.
 */
-alds_err_t alds_init_memmgmnt(const alds_memgmnt_t * cb);
+alds_err_t alds_memory_init(const alds_memory_t * cb);
 
 /**
  * @brief Reset custom memory management into initial state (malloc/calloc/calloc/free usage).
 */
-void alds_reset_memmgmnt(void);
+void alds_memory_reset(void);
 
 void * alds_malloc(size_t size);
 void * alds_calloc(size_t size);
@@ -40,4 +40,4 @@ void alds_free(void ** ptr);
 }
 #endif
 
-#endif // ALDS_MEMMGMNT_H
+#endif // ALDS_MEMORY_H

@@ -1,5 +1,5 @@
 #include "simple/queue.h"
-#include "alds_memmgmt.h"
+#include "alds_memory.h"
 #include <string.h>
 #include <stdbool.h>
 
@@ -24,33 +24,31 @@ alds_err_t alds_queue_init(alds_queue_t * ctx, size_t items, size_t item_size) {
         return e_alds_err_arg;
     }
 
-    ctx->is_static = false;
+    ALDS_DATA_INIT_DYNAMIC(buff, items * item_size);
+    if (!is_data_valid(&buff)) {
+        return e_alds_err_memalloc;
+    }
+
+    ctx->buff = buff;
     ctx->item_size = item_size;
     ctx->item_index_head = 0;
     ctx->item_index_tail = 0;
     ctx->items_quantity = items;
     ctx->items_quantity_curr = 0;
-    ctx->buffer_size = items * item_size;
-    ctx->buffer = alds_malloc(ctx->buffer_size);
-    if (NULL == ctx->buffer) {
-        return e_alds_err_memalloc;
-    }
 
     return e_alds_err_success;
 }
 
-alds_err_t alds_queue_init_static(alds_queue_t * ctx, uint8_t * buffer, size_t buffer_size, size_t item_size) {
-    if (NULL == ctx || NULL == buffer || 0 == buffer_size || 0 == item_size) {
+alds_err_t alds_queue_init_external(alds_queue_t * ctx, const alds_data_t * buff, size_t item_size) {
+    if (NULL == ctx || !is_data_valid(buff) || 0 == item_size) {
         return e_alds_err_arg;
     }
 
-    ctx->is_static = true;
-    ctx->buffer_size = buffer_size;
-    ctx->buffer = buffer;
+    ctx->buff = *buff;
     ctx->item_size = item_size;
     ctx->item_index_head = 0;
     ctx->item_index_tail = 0;
-    ctx->items_quantity = buffer_size / item_size;
+    ctx->items_quantity = ctx->buff.size / item_size;
     ctx->items_quantity_curr = 0;
 
     return e_alds_err_success;
@@ -61,13 +59,7 @@ void alds_queue_deinit(alds_queue_t * ctx) {
         return;
     }
 
-    if (ctx->is_static) {
-        ctx->buffer = NULL;
-    } else {
-        alds_free((void**) &ctx->buffer);
-    }
-    
-    ctx->buffer_size = 0;
+    ALDS_DATA_FREE(ctx->buff);
     ctx->item_size = 0;
     ctx->item_index_head = 0;
     ctx->item_index_tail = 0;
@@ -85,7 +77,7 @@ alds_err_t alds_queue_push(alds_queue_t * ctx, const void * data) {
     }
 
     ctx->items_quantity_curr++;
-    memcpy(ctx->buffer + ctx->item_index_head * ctx->item_size, data, ctx->item_size);
+    memcpy(ctx->buff.ptr + ctx->item_index_head * ctx->item_size, data, ctx->item_size);
     ctx->item_index_head = next_item_index(ctx, ctx->item_index_head);
 
     return e_alds_err_success;
@@ -101,7 +93,7 @@ alds_err_t alds_queue_pop(alds_queue_t * ctx, void * data) {
     }
 
     ctx->items_quantity_curr--;
-    memcpy(data, ctx->buffer + ctx->item_index_tail * ctx->item_size, ctx->item_size);
+    memcpy(data, ctx->buff.ptr + ctx->item_index_tail * ctx->item_size, ctx->item_size);
     ctx->item_index_tail = next_item_index(ctx, ctx->item_index_tail);
 
     return e_alds_err_success;

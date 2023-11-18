@@ -13,7 +13,7 @@ The project consists of 3 parts:
 
 ## Build
 
-Clean build dir: `rm -rf ./lib/build`
+Clean build dir: `rm -rf build`
 
 Library: 
 * build `cmake -S . -B ./build && cmake --build ./build --target alds`
