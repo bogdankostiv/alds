@@ -3,6 +3,10 @@ project(alds-example C)
 
 set(CMAKE_C_STANDARD 11)
 
+# Allow logging
+add_definitions(-DVERBOSE)
+add_definitions(-DALDS_LOG_LEVEL=0)
+
 set(SRC
         main.c
         simple.c
