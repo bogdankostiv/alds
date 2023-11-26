@@ -3,4 +3,4 @@
 
 int log_tests(void);
 
-#endif //LOG_TESTS_H
+#endif // LOG_TESTS_H

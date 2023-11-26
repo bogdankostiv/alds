@@ -1,0 +1,39 @@
+---
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
+# Use https://clang.llvm.org/docs/ClangFormatStyleOptions.html for more information
+BasedOnStyle: LLVM
+IndentWidth: 4
+---
+Language: Cpp
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Middle
+
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
+#AlignAfterOpenBracket: BlockIndent
+BracedInitializerIndentWidth: 4
+
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Empty
+
+AlignConsecutiveShortCaseStatements:
+  Enabled: false
+
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+
+AlignEscapedNewlines: Right
+
+#BreakBeforeBraces: Custom
+#BraceWrapping:
+#  AfterEnum: true
+#  AfterStruct: false
+#  SplitEmptyFunction: false

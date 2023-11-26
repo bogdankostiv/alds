@@ -4,4 +4,4 @@
 int stack_tests(void);
 int queue_tests(void);
 
-#endif //ALDS_TESTS_SIMPLE_H
+#endif // ALDS_TESTS_SIMPLE_H

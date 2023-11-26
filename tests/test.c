@@ -1,22 +1,20 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <alds/alds.h>
-#include "log_tests.h"
-#include "data_tests.h"
 #include "basic/basic_tests.h"
 #include "cmocka_incl.h"
+#include "data_tests.h"
+#include "log_tests.h"
+#include <alds/alds.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static void * alds_malloc_default_local(size_t size);
 static void * alds_calloc_default_local(size_t size);
-static void * alds_realloc_default_local(void *  ptr, size_t new_size);
+static void * alds_realloc_default_local(void * ptr, size_t new_size);
 static void alds_free_default_local(void ** ptr);
 
-static alds_alloc_t alloc = {
-    .alds_malloc_cb = alds_malloc_default_local,
-    .alds_calloc_cb = alds_calloc_default_local,
-    .alds_realloc_cb = alds_realloc_default_local,
-    .alds_free_cb = alds_free_default_local
-};
+static alds_alloc_t alloc = {.alds_malloc_cb = alds_malloc_default_local,
+                             .alds_calloc_cb = alds_calloc_default_local,
+                             .alds_realloc_cb = alds_realloc_default_local,
+                             .alds_free_cb = alds_free_default_local};
 
 static void * alds_malloc_default_local(size_t size) {
     return test_malloc(size);
@@ -26,7 +24,7 @@ static void * alds_calloc_default_local(size_t size) {
     return test_calloc(size, 1);
 }
 
-static void * alds_realloc_default_local(void *  ptr, size_t new_size) {
+static void * alds_realloc_default_local(void * ptr, size_t new_size) {
     return test_realloc(ptr, new_size);
 }
 
@@ -35,12 +33,12 @@ static void alds_free_default_local(void ** ptr) {
     *ptr = NULL;
 }
 
-static void alds_dummy_log_cb(__attribute__((__unused__)) const char * const msg, 
-                                __attribute__((__unused__)) va_list va){
-}
+static void alds_dummy_log_cb(__attribute__((__unused__))
+                              const char * const msg,
+                              __attribute__((__unused__)) va_list va) {}
 
 int main(int argc, char * argv[]) {
-    int result = 0;
+    uint32_t result = 0;
 
     // set custom allocators to be able to detect memory leaks
     result |= alds_alloc_default_set(&alloc);
@@ -65,8 +63,6 @@ int main(int argc, char * argv[]) {
 
     result |= stack_tests();
     result |= queue_tests();
-
-
 
     if (0 != result) {
         printf("\n\nERROR!!! One or more tests have failed\n");

@@ -1,6 +1,6 @@
 #include <alds/alds.h>
-#include <alds/basic/stack.h>
 #include <alds/basic/queue.h>
+#include <alds/basic/stack.h>
 
 void stack(void) {
     // create memory manager for dynamic allocation

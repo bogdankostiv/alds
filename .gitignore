@@ -2,7 +2,7 @@
 .cache
 .idea
 build*/
-lib/build*/
-tests/build*/
-example/build*/
+lib/build/
+tests/build/
+example/build/
 cmake-build*/

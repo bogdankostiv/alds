@@ -11,3 +11,10 @@ endif ()
 add_subdirectory(lib)
 add_subdirectory(example)
 add_subdirectory(tests)
+
+add_custom_target(clang-format
+    COMMAND echo "Run clang-format"
+    COMMAND find ../example -name "*.c" -o -name "*.h" -o -name "*.cpp" | sed 's| |\\ |g' | xargs clang-format -i -style=file:../.clang-format
+    COMMAND find ../lib -name "*.c" -o -name "*.h" -o -name "*.cpp" | sed 's| |\\ |g' | xargs clang-format -i -style=file:../.clang-format
+    COMMAND find ../tests -name "*.c" -o -name "*.h" -o -name "*.cpp" | sed 's| |\\ |g' | xargs clang-format -i -style=file:../.clang-format
+)

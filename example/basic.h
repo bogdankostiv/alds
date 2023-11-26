@@ -6,5 +6,4 @@ void stack_static(void);
 void queue(void);
 void queue_static(void);
 
-#endif //SIMPLE_H
-
+#endif // SIMPLE_H
