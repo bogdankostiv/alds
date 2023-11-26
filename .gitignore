@@ -1,5 +1,8 @@
 .vscode
 .cache
-build
-lib/build
-tests/build
+.idea
+build*/
+lib/build*/
+tests/build*/
+example/build*/
+cmake-build*/

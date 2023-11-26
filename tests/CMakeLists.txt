@@ -39,28 +39,20 @@ FetchContent_MakeAvailable(cmocka)
 
 include_directories(../lib/include)
 
-
-set(HEADER_FILES_TO_TEST
-        ../lib/include/alds.h
-        )
-
 set(SRC_TO_TEST
         ../lib/src/alds.c
-        ../lib/src/alds_memory.c
         ../lib/src/alds_log.c
-        ../lib/src/simple/stack.c
-        ../lib/src/simple/queue.c
+        ../lib/src/data/alds_alloc.c
+        ../lib/src/basic/stack.c
+        ../lib/src/basic/queue.c
         )
 
 set(SRC
         test.c
         log_tests.c
-        simple/stack_tests.c
-        simple/queue_tests.c
-        )
-
-set(HDR
-        ${HEADER_FILES_TO_TEST}
+        data_tests.c
+        basic/stack_tests.c
+        basic/queue_tests.c
         )
 
 add_executable(alds-tests

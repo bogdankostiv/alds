@@ -10,29 +10,22 @@ endif ()
 
 include_directories(include)
 
-set(LIB_INSTALL_HEADER_FILES
-        include/alds.h
-        include/alds_memory.h
-        include/alds_error.h
-        include/alds_log.h
-        include/simple/stack.h
-        )
-
 set(LIB_PRIVATE_HEADER_FILES
 
         )
 
 set(LIB_SRC
         src/alds.c
-        src/alds_memory.c
         src/alds_log.c
-        src/simple/stack.c
-        src/simple/queue.c
+        src/data/alds_alloc.c
+        src/basic/stack.c
+        src/basic/queue.c
+        src/basic/linked_list.c
         )
 
 SET(LIB_TYPE STATIC)
 
-add_library(alds ${LIB_INSTALL_HEADER_FILES} ${LIB_PRIVATE_HEADER_FILES} ${LIB_SRC})
+add_library(alds ${LIB_SRC})
 
 target_include_directories(alds
   PUBLIC

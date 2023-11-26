@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <alds.h>
-#include "simple.h"
+#include <alds/alds.h>
+#include "basic.h"
 
 int main(void) {
 
@@ -9,6 +9,8 @@ int main(void) {
     
     stack();
     stack_static();
+    queue();
+    queue_static();
 
     ALDS_LOG_INFO("Demo APP", "Demo App finished\n");
 

@@ -9,7 +9,7 @@ add_definitions(-DALDS_LOG_LEVEL=0)
 
 set(SRC
         main.c
-        simple.c
+        basic.c
         )
 
 add_executable(alds-example ${SRC})
