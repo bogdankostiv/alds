@@ -27,7 +27,7 @@ Demo
 * run: `./build/example/alds-example`
 
 Clang-format:
-  cmake -S . -B ./build && cmake --build ./build --target clang-format
+  `cmake -S . -B ./build && cmake --build ./build --target clang-format`
 
 ## License
 MIT. Feel free to use the library. Modification is not prohibited.  
