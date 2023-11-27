@@ -30,4 +30,4 @@ Clang-format:
 * `cmake -S . -B ./build && cmake --build ./build --target clang-format`
 
 ## License
-MIT. Feel free to use the library. Modification is not prohibited.  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
