@@ -21,8 +21,7 @@ typedef struct {
     size_t item_index_tail;
 } alds_queue_t;
 
-alds_err_t alds_queue_init(alds_queue_t * ctx, alds_memmngr_t * memmngr,
-                           size_t items_quantity, size_t item_size);
+alds_err_t alds_queue_init(alds_queue_t * ctx, alds_memmngr_t * memmngr, size_t items_quantity, size_t item_size);
 void alds_queue_deinit(alds_queue_t * ctx);
 
 alds_err_t alds_queue_push(alds_queue_t * ctx, const void * data);

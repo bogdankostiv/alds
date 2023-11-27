@@ -1,6 +1,7 @@
 #ifndef ALDS_SIMPLE_LINKED_LIST_H
 #define ALDS_SIMPLE_LINKED_LIST_H
 
+#include <alds/data/alds_alloc.h>
 #include <alds/data/alds_data.h>
 #include <stdbool.h>
 
@@ -14,24 +15,27 @@ typedef struct alds_ll {
     uint8_t data[];
 } alds_ll_t;
 
-#define LL_GET_DATA(data_type, data)
+#define LL_DATA_PTR(data_type, ll_item) ((data_type)(&(ll_item)->data[0]))
 
 typedef struct {
     alds_ll_t * head;
-    bool is_circular; //**< Tail's next points on the head and vice versa
-    bool is_sentinel; //**< The head data is NULL, it is used as a marker
+    const alds_alloc_t * alloc;
+    size_t data_size;
+    alds_free_cb_t data_free_cb;
+    bool is_circular;
 } alds_ll_ctx_t;
 
-alds_err_t alds_ll_init(alds_ll_ctx_t * ctx, bool is_circular,
-                        bool is_sentinel);
+alds_err_t alds_ll_init(alds_ll_ctx_t * ctx, const alds_alloc_t * alloc, size_t data_size, alds_free_cb_t data_free_cb,
+                        bool is_circular);
 void alds_ll_deinit(alds_ll_ctx_t * ctx);
 
-// prepend (head, data)
-// insert (item, data)
-// delete (item)
+alds_err_t alds_ll_prepend(alds_ll_ctx_t * ctx, void * data);
+alds_err_t alds_ll_insert(alds_ll_ctx_t * ctx, alds_ll_t * item, void * data);
+alds_err_t alds_ll_delete(alds_ll_ctx_t * ctx, alds_ll_t * item);
 
-// next
-// prev
+alds_ll_t * alds_ll_head(alds_ll_ctx_t * ctx);
+alds_ll_t * alds_ll_next(alds_ll_t * item);
+alds_ll_t * alds_ll_prev(alds_ll_t * item);
 
 #ifdef __cplusplus
 }

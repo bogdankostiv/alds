@@ -10,10 +10,6 @@ endif ()
 
 include_directories(include)
 
-set(LIB_PRIVATE_HEADER_FILES
-
-        )
-
 set(LIB_SRC
         src/alds.c
         src/alds_log.c

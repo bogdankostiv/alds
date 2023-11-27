@@ -45,6 +45,7 @@ set(SRC_TO_TEST
         ../lib/src/data/alds_alloc.c
         ../lib/src/basic/stack.c
         ../lib/src/basic/queue.c
+        ../lib/src/basic/linked_list.c
         )
 
 set(SRC
@@ -53,6 +54,7 @@ set(SRC
         data_tests.c
         basic/stack_tests.c
         basic/queue_tests.c
+        basic/linked_list_tests.c
         )
 
 add_executable(alds-tests

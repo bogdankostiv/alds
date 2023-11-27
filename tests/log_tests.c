@@ -21,14 +21,12 @@ static void alds_log_error(const char * const msg, va_list va) {
 }
 
 static void alds_log_module_len_limit(const char * const msg, va_list va) {
-    assert_string_equal(
-        msg, "ALDS ERROR [VeryLongModuleLimit123456]: general_log_test 4");
+    assert_string_equal(msg, "ALDS ERROR [VeryLongModuleLimit123456]: general_log_test 4");
     call_index = 4;
 }
 
 static void alds_log_module_len_cut(const char * const msg, va_list va) {
-    assert_string_equal(
-        msg, "ALDS ERROR [VeryLongModuleLimit123...]: general_log_test 5");
+    assert_string_equal(msg, "ALDS ERROR [VeryLongModuleLimit123...]: general_log_test 5");
     call_index = 5;
 }
 

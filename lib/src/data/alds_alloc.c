@@ -14,11 +14,9 @@ static alds_alloc_t default_alloc = {.alds_malloc_cb = alds_malloc_default,
                                      .alds_free_cb = alds_free_default};
 
 alds_err_t alds_alloc_default_set(const alds_alloc_t * alloc) {
-    if (NULL == alloc || NULL == alloc->alds_malloc_cb ||
-        NULL == alloc->alds_calloc_cb || NULL == alloc->alds_realloc_cb ||
-        NULL == alloc->alds_free_cb) {
-        ALDS_LOG_ERROR(LOG_MODULE_NAME,
-                       "At least one of init callbacks is NULL");
+    if (NULL == alloc || NULL == alloc->alds_malloc_cb || NULL == alloc->alds_calloc_cb ||
+        NULL == alloc->alds_realloc_cb || NULL == alloc->alds_free_cb) {
+        ALDS_LOG_ERROR(LOG_MODULE_NAME, "At least one of init callbacks is NULL");
         return e_alds_err_arg;
     }
 
@@ -59,8 +57,7 @@ void * alds_calloc_custom(const alds_alloc_t * alloc, size_t size) {
     }
 }
 
-void * alds_realloc_custom(const alds_alloc_t * alloc, void * ptr,
-                           size_t new_size) {
+void * alds_realloc_custom(const alds_alloc_t * alloc, void * ptr, size_t new_size) {
     if (NULL != alloc->alds_malloc_cb) {
         return alloc->alds_realloc_cb(ptr, new_size);
     } else {

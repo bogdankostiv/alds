@@ -20,9 +20,9 @@ typedef struct {
     alds_free_cb_t alds_free_cb;
 } alds_alloc_t;
 
-#define ALDS_ALLOC_PTR_IS_VALID(p)                                             \
-    (NULL != (p)->alds_malloc_cb && NULL != (p)->alds_calloc_cb &&             \
-     NULL != (p)->alds_realloc_cb && NULL != (p)->alds_free_cb)
+#define ALDS_ALLOC_PTR_IS_VALID(p)                                                                                     \
+    (NULL != (p)->alds_malloc_cb && NULL != (p)->alds_calloc_cb && NULL != (p)->alds_realloc_cb &&                     \
+     NULL != (p)->alds_free_cb)
 
 /**
  * @brief Default memory allocators initialisation. The library uses
@@ -46,8 +46,7 @@ void alds_alloc_default_reset(void);
  */
 void * alds_malloc_custom(const alds_alloc_t * cb, size_t size);
 void * alds_calloc_custom(const alds_alloc_t * cb, size_t size);
-void * alds_realloc_custom(const alds_alloc_t * cb, void * ptr,
-                           size_t new_size);
+void * alds_realloc_custom(const alds_alloc_t * cb, void * ptr, size_t new_size);
 void alds_free_custom(const alds_alloc_t * cb, void ** ptr);
 
 /**

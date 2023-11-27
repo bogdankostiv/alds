@@ -10,8 +10,7 @@ static void alds_free_default_local(void ** ptr);
 
 static alds_alloc_t alloc_local = {.alds_malloc_cb = alds_malloc_default_local,
                                    .alds_calloc_cb = alds_calloc_default_local,
-                                   .alds_realloc_cb =
-                                       alds_realloc_default_local,
+                                   .alds_realloc_cb = alds_realloc_default_local,
                                    .alds_free_cb = alds_free_default_local};
 
 static void * alds_malloc_default_local(size_t size) {
@@ -210,12 +209,9 @@ static void alds_buff_dynamic_test(void ** state) {
 
 int data_tests(void) {
     const struct CMUnitTest unit_tests[] = {
-        cmocka_unit_test(test_alloc_default),
-        cmocka_unit_test(test_alloc_default_custom),
-        cmocka_unit_test(test_alloc_custom),
-        cmocka_unit_test(alds_buff_local_test),
-        cmocka_unit_test(alds_buff_static_test),
-        cmocka_unit_test(alds_buff_dynamic_test)};
+        cmocka_unit_test(test_alloc_default),    cmocka_unit_test(test_alloc_default_custom),
+        cmocka_unit_test(test_alloc_custom),     cmocka_unit_test(alds_buff_local_test),
+        cmocka_unit_test(alds_buff_static_test), cmocka_unit_test(alds_buff_dynamic_test)};
 
     printf("\nData testing:\n");
     return cmocka_run_group_tests(unit_tests, NULL, NULL);

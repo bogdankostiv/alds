@@ -21,8 +21,7 @@ extern "C" {
  * @brief Info level logging
  */
 #if defined(VERBOSE) && ALDS_LOG_LEVEL <= ALDS_LOG_LEVEL_INFO
-#define ALDS_LOG_INFO(module, ...)                                             \
-    alds_log(ALDS_LOG_LEVEL_INFO, module, __VA_ARGS__)
+#define ALDS_LOG_INFO(module, ...) alds_log(ALDS_LOG_LEVEL_INFO, module, __VA_ARGS__)
 #else
 #define ALDS_LOG_INFO(module, ...)
 #endif
@@ -31,8 +30,7 @@ extern "C" {
  * @brief Warning level logging
  */
 #if defined(VERBOSE) && ALDS_LOG_LEVEL <= ALDS_LOG_LEVEL_WARNING
-#define ALDS_LOG_WARNING(module, ...)                                          \
-    alds_log(ALDS_LOG_LEVEL_WARNING, module, __VA_ARGS__)
+#define ALDS_LOG_WARNING(module, ...) alds_log(ALDS_LOG_LEVEL_WARNING, module, __VA_ARGS__)
 #else
 #define ALDS_LOG_WARNING(module, ...)
 #endif
@@ -41,25 +39,19 @@ extern "C" {
  * @brief Error level logging
  */
 #if defined(VERBOSE) && ALDS_LOG_LEVEL <= ALDS_LOG_LEVEL_ERROR
-#define ALDS_LOG_ERROR(module, ...)                                            \
-    alds_log(ALDS_LOG_LEVEL_ERROR, module, __VA_ARGS__)
+#define ALDS_LOG_ERROR(module, ...) alds_log(ALDS_LOG_LEVEL_ERROR, module, __VA_ARGS__)
 #else
 #define ALDS_LOG_ERROR(module, ...)
 #endif
 
-#define ALDS_LOG_ERROR_INVALID_ARG(module)                                     \
-    ALDS_LOG_ERROR(module, "Fn %s, line %d: NULL or invalid arg(s)\n",         \
-                   __func__, __LINE__)
-#define ALDS_LOG_ERROR_ALLOC(module)                                           \
-    ALDS_LOG_ERROR(module, "Fn %s, line %d: allocation failed\n", __func__,    \
-                   __LINE__)
-#define ALDS_LOG_ERROR_MEMMGMNT(module)                                        \
-    ALDS_LOG_ERROR(module, "Fn %s, line %d: memory management module\n",       \
-                   __func__, __LINE__)
-#define ALDS_LOG_ERROR_FULL(module)                                            \
-    ALDS_LOG_ERROR(module, "Fn %s, line %d: full\n", __func__, __LINE__)
-#define ALDS_LOG_ERROR_EMPTY(module)                                           \
-    ALDS_LOG_ERROR(module, "Fn %s, line %d: empty\n", __func__, __LINE__)
+#define ALDS_LOG_ERROR_GENERAL(module, message)                                                                        \
+    ALDS_LOG_ERROR(module, "Fn %s, line %d: %s\n", __func__, __LINE__, message)
+
+#define ALDS_LOG_ERROR_INVALID_ARG(module) ALDS_LOG_ERROR_GENERAL(module, "NULL or invalid arg(s)")
+#define ALDS_LOG_ERROR_ALLOC(module)       ALDS_LOG_ERROR_GENERAL(module, "allocation failed")
+#define ALDS_LOG_ERROR_MEMMNGR(module)     ALDS_LOG_ERROR_GENERAL(module, "memory manager module")
+#define ALDS_LOG_ERROR_FULL(module)        ALDS_LOG_ERROR_GENERAL(module, "full")
+#define ALDS_LOG_ERROR_EMPTY(module)       ALDS_LOG_ERROR_GENERAL(module, "empty")
 
 /**
  * @brief Callback data type for custom logging implementation
@@ -84,8 +76,7 @@ void alds_set_log_cb(alds_log_cb_t cb);
  * @param module - Pointer on a string with the name of module
  * @param fmt - Format string with following variadic parameters
  */
-void alds_log(uint32_t log_level, const char * const module,
-              const char * const fmt, ...);
+void alds_log(uint32_t log_level, const char * const module, const char * const fmt, ...);
 
 #ifdef __cplusplus
 }

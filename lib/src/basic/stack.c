@@ -5,18 +5,15 @@
 
 #define LOG_MODULE_NAME "stack.c"
 
-alds_err_t alds_stack_init(alds_stack_t * ctx, alds_memmngr_t * memmngr,
-                           size_t item_quantity, size_t item_size) {
-    if (NULL == ctx || NULL == memmngr || !alds_memmngr_is_valid(memmngr) ||
-        0 == item_quantity || 0 == item_size) {
+alds_err_t alds_stack_init(alds_stack_t * ctx, alds_memmngr_t * memmngr, size_t item_quantity, size_t item_size) {
+    if (NULL == ctx || NULL == memmngr || !alds_memmngr_is_valid(memmngr) || 0 == item_quantity || 0 == item_size) {
         ALDS_LOG_ERROR_INVALID_ARG(LOG_MODULE_NAME);
         return e_alds_err_arg;
     }
 
     ctx->mem_mngr = *memmngr;
 
-    ctx->buff =
-        alds_memmngr_buffer_get(&ctx->mem_mngr, item_quantity * item_size);
+    ctx->buff = alds_memmngr_buffer_get(&ctx->mem_mngr, item_quantity * item_size);
     if (NULL == ctx->buff) {
         ALDS_LOG_ERROR_ALLOC(LOG_MODULE_NAME);
         return e_alds_err_memalloc;
@@ -51,8 +48,7 @@ alds_err_t alds_stack_push(alds_stack_t * ctx, const void * data) {
         return e_alds_err_full;
     }
 
-    memcpy(ctx->buff + ctx->items_quantity * ctx->item_size, data,
-           ctx->item_size);
+    memcpy(ctx->buff + ctx->items_quantity * ctx->item_size, data, ctx->item_size);
     ctx->items_quantity++;
 
     return e_alds_err_success;
@@ -70,8 +66,7 @@ alds_err_t alds_stack_pop(alds_stack_t * ctx, void * data) {
     }
 
     ctx->items_quantity--;
-    memcpy(data, ctx->buff + ctx->items_quantity * ctx->item_size,
-           ctx->item_size);
+    memcpy(data, ctx->buff + ctx->items_quantity * ctx->item_size, ctx->item_size);
 
     return e_alds_err_success;
 }

@@ -18,8 +18,7 @@ typedef struct {
     size_t items_quantity;
 } alds_stack_t;
 
-alds_err_t alds_stack_init(alds_stack_t * ctx, alds_memmngr_t * memmngr,
-                           size_t item_quantity, size_t item_size);
+alds_err_t alds_stack_init(alds_stack_t * ctx, alds_memmngr_t * memmngr, size_t item_quantity, size_t item_size);
 void alds_stack_deinit(alds_stack_t * ctx);
 
 alds_err_t alds_stack_push(alds_stack_t * ctx, const void * data);

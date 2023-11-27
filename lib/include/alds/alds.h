@@ -2,6 +2,7 @@
 #define ALDS_H
 
 #include <alds/alds_error.h>
+#include <alds/alds_helpers.h>
 #include <alds/alds_log.h>
 #include <alds/data/alds_alloc.h>
 #include <alds/data/alds_data.h>

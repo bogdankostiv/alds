@@ -29,26 +29,23 @@ typedef struct {
     } container;
 } alds_memmngr_t;
 
-#define ALDS_MEMMNGR_FROM_BUFFER(d)                                            \
-    (alds_memmngr_t) {                                                         \
-        .type = eAldsMemMngr_buffer, .container.data = (d)                     \
+#define ALDS_MEMMNGR_FROM_BUFFER(d)                                                                                    \
+    (alds_memmngr_t) {                                                                                                 \
+        .type = eAldsMemMngr_buffer, .container.data = (d)                                                             \
     }
 
-#define ALDS_MEMMNGR_FROM_ALLOCATOR(cb)                                        \
-    (alds_memmngr_t) {                                                         \
-        .type = eAldsMemMngr_alloc, .container.alloc = (cb)                    \
+#define ALDS_MEMMNGR_FROM_ALLOCATOR(cb)                                                                                \
+    (alds_memmngr_t) {                                                                                                 \
+        .type = eAldsMemMngr_alloc, .container.alloc = (cb)                                                            \
     }
 
 static inline bool alds_memmngr_is_valid(const alds_memmngr_t * const memngr) {
-    return eAldsMemMngr_buffer == memngr->type
-               ? ALDS_DATA_PTR_IS_VALID(&memngr->container.data)
-           : eAldsMemMngr_alloc == memngr->type
-               ? ALDS_ALLOC_PTR_IS_VALID(&memngr->container.alloc)
-               : false;
+    return eAldsMemMngr_buffer == memngr->type  ? ALDS_DATA_PTR_IS_VALID(&memngr->container.data)
+           : eAldsMemMngr_alloc == memngr->type ? ALDS_ALLOC_PTR_IS_VALID(&memngr->container.alloc)
+                                                : false;
 }
 
-static inline void * alds_memmngr_buffer_get(alds_memmngr_t * mngr,
-                                             size_t size) {
+static inline void * alds_memmngr_buffer_get(alds_memmngr_t * mngr, size_t size) {
     void * buff = NULL;
 
     if (mngr->type == eAldsMemMngr_alloc) {
@@ -62,8 +59,7 @@ static inline void * alds_memmngr_buffer_get(alds_memmngr_t * mngr,
     return buff;
 }
 
-static inline void alds_memmngr_buffer_release(alds_memmngr_t * mngr,
-                                               void ** buff) {
+static inline void alds_memmngr_buffer_release(alds_memmngr_t * mngr, void ** buff) {
     if (!alds_memmngr_is_valid(mngr) || NULL == buff) {
         return;
     }

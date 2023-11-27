@@ -33,8 +33,7 @@ static void alds_free_default_local(void ** ptr) {
     *ptr = NULL;
 }
 
-static void alds_dummy_log_cb(__attribute__((__unused__))
-                              const char * const msg,
+static void alds_dummy_log_cb(__attribute__((__unused__)) const char * const msg,
                               __attribute__((__unused__)) va_list va) {}
 
 int main(int argc, char * argv[]) {
@@ -63,6 +62,7 @@ int main(int argc, char * argv[]) {
 
     result |= stack_tests();
     result |= queue_tests();
+    result |= linked_list_tests();
 
     if (0 != result) {
         printf("\n\nERROR!!! One or more tests have failed\n");

@@ -7,8 +7,7 @@
 static alds_log_cb_t custom_print_cb = NULL;
 
 static void alds_log_default(const char * const fmt, va_list argp);
-static void alds_log_formatted(uint32_t log_level, const char * const module,
-                               const char * const fmt, va_list argp);
+static void alds_log_formatted(uint32_t log_level, const char * const module, const char * const fmt, va_list argp);
 
 void alds_clear_log_cb(void) {
     custom_print_cb = NULL;
@@ -20,8 +19,7 @@ void alds_set_log_cb(alds_log_cb_t cb) {
     }
 }
 
-void alds_log(uint32_t log_level, const char * const module,
-              const char * const fmt, ...) {
+void alds_log(uint32_t log_level, const char * const module, const char * const fmt, ...) {
     if (NULL == module || NULL == fmt) {
         // we can't do anything here
         return;
@@ -37,8 +35,7 @@ static void alds_log_default(const char * const fmt, va_list argp) {
     vfprintf(stdout, fmt, argp);
 }
 
-static void alds_log_formatted(uint32_t log_level, const char * const module,
-                               const char * const fmt, va_list argp) {
+static void alds_log_formatted(uint32_t log_level, const char * const module, const char * const fmt, va_list argp) {
     uint8_t ext_len = 40;
     char new_fmt[strlen(fmt) + ext_len + 1];
 
