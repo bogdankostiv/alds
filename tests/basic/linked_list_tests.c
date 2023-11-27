@@ -20,7 +20,7 @@ static void ll_init_deinit(void ** state) {
 }
 
 static void ll_prev_next_and_deinit(void ** state) {
-    (void) state; /* unused */
+    (void)state; /* unused */
 
     size_t data_size = sizeof(uint16_t);
     alds_ll_t * ll_item = NULL;
@@ -99,7 +99,7 @@ static void ll_non_circular(void ** state) {
     assert_int_equal(*LL_DATA_PTR(uint32_t *, ll_item), 1);
     assert_null(ll_item->next);
 
-    //get the last item in the ll
+    // get the last item in the ll
     ll_item = alds_ll_head(&ctx);
     while (NULL != alds_ll_next(ll_item)) {
         ll_item = alds_ll_next(ll_item);
@@ -120,9 +120,7 @@ static void ll_non_circular(void ** state) {
 
 int linked_list_tests(void) {
     const struct CMUnitTest unit_tests[] = {
-        cmocka_unit_test(ll_init_deinit),
-        cmocka_unit_test(ll_non_circular),
-        cmocka_unit_test(ll_prev_next_and_deinit),
+        cmocka_unit_test(ll_init_deinit), cmocka_unit_test(ll_non_circular), cmocka_unit_test(ll_prev_next_and_deinit),
         //            cmocka_unit_test(queue_dynamic_negative_arguments),
         //            cmocka_unit_test(queue_static_full),
     };

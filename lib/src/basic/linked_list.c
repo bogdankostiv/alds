@@ -59,7 +59,7 @@ alds_err_t alds_ll_delete(alds_ll_ctx_t * ctx, alds_ll_t * item) {
 
     // TODO release user's data here if needed
     if (NULL != ctx->data_free_cb) {
-        void * user_data = (void *) del->data;
+        void * user_data = (void *)del->data;
         (ctx->data_free_cb)(&user_data);
     }
 
@@ -109,7 +109,6 @@ alds_err_t alds_ll_insert(alds_ll_ctx_t * ctx, alds_ll_t * item, void * data) {
         return e_alds_err_memalloc;
     }
     memcpy(insert_item->data, data, ctx->data_size);
-
 
     if (NULL != alds_ll_next(item)) {
         alds_ll_next(item)->prev = insert_item;
