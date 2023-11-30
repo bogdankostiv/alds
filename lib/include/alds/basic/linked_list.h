@@ -25,8 +25,8 @@ typedef struct {
     bool is_circular;
 } alds_ll_ctx_t;
 
-alds_err_t alds_ll_init(alds_ll_ctx_t * ctx, const alds_alloc_t * alloc, size_t data_size,
-                        alds_free_cb_t data_free_cb_____, bool is_circular);
+alds_err_t alds_ll_init(alds_ll_ctx_t * ctx, const alds_alloc_t * alloc, size_t data_size, alds_free_cb_t data_free_cb,
+                        bool is_circular);
 void alds_ll_deinit(alds_ll_ctx_t * ctx);
 
 alds_err_t alds_ll_prepend(alds_ll_ctx_t * ctx, void * data);
