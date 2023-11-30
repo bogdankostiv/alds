@@ -6,7 +6,7 @@
 static void * alds_malloc_default_local(size_t size);
 static void * alds_calloc_default_local(size_t size);
 static void * alds_realloc_default_local(void * ptr, size_t new_size);
-static void alds_free_default_local(void ** ptr);
+static void alds_free_default_local(void * ptr);
 
 static alds_alloc_t alloc_local = {.alds_malloc_cb = alds_malloc_default_local,
                                    .alds_calloc_cb = alds_calloc_default_local,
@@ -25,9 +25,8 @@ static void * alds_realloc_default_local(void * ptr, size_t new_size) {
     return test_realloc(ptr, new_size);
 }
 
-static void alds_free_default_local(void ** ptr) {
-    test_free(*ptr);
-    *ptr = NULL;
+static void alds_free_default_local(void * ptr) {
+    test_free(ptr);
 }
 
 static void test_alloc_default(void ** state) {
@@ -53,10 +52,8 @@ static void test_alloc_default(void ** state) {
     void * ptr3 = alds_realloc(ptr1, 15);
     assert_non_null(ptr3);
 
-    alds_free(&ptr2);
-    alds_free(&ptr3);
-    assert_null(ptr2);
-    assert_null(ptr3);
+    alds_free(ptr2);
+    alds_free(ptr3);
 }
 
 static void test_alloc_default_custom(void ** state) {
@@ -86,10 +83,8 @@ static void test_alloc_default_custom(void ** state) {
     void * ptr3 = alds_realloc(ptr1, 15);
     assert_non_null(ptr3);
 
-    alds_free(&ptr2);
-    alds_free(&ptr3);
-    assert_null(ptr2);
-    assert_null(ptr3);
+    alds_free(ptr2);
+    alds_free(ptr3);
 }
 
 static void test_alloc_custom(void ** state) {
@@ -119,10 +114,8 @@ static void test_alloc_custom(void ** state) {
     void * ptr3 = alds_realloc_custom(&alloc_local, ptr1, 15);
     assert_non_null(ptr3);
 
-    alds_free_custom(&alloc_local, &ptr2);
-    alds_free_custom(&alloc_local, &ptr3);
-    assert_null(ptr2);
-    assert_null(ptr3);
+    alds_free_custom(&alloc_local, ptr2);
+    alds_free_custom(&alloc_local, ptr3);
 }
 
 static void alds_buff_local_test(void ** state) {

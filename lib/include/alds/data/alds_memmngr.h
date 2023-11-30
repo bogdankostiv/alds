@@ -59,7 +59,7 @@ static inline void * alds_memmngr_buffer_get(alds_memmngr_t * mngr, size_t size)
     return buff;
 }
 
-static inline void alds_memmngr_buffer_release(alds_memmngr_t * mngr, void ** buff) {
+static inline void alds_memmngr_buffer_release(alds_memmngr_t * mngr, void * buff) {
     if (!alds_memmngr_is_valid(mngr) || NULL == buff) {
         return;
     }

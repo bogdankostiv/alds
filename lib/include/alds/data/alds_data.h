@@ -45,7 +45,7 @@ typedef struct {
 #define ALDS_DATA_PTR_FREE(data_name_ptr)                                                                              \
     if (NULL != (data_name_ptr)) {                                                                                     \
         if (NULL != (data_name_ptr)->free_cb) {                                                                        \
-            ((data_name_ptr)->free_cb)(&((data_name_ptr)->ptr));                                                       \
+            ((data_name_ptr)->free_cb)((data_name_ptr)->ptr);                                                          \
         }                                                                                                              \
         (data_name_ptr)->ptr = NULL;                                                                                   \
         (data_name_ptr)->size = 0;                                                                                     \
@@ -57,7 +57,7 @@ typedef struct {
  */
 #define ALDS_DATA_FREE(data_name)    ALDS_DATA_PTR_FREE(&(data_name))
 
-#define ALDS_DATA_PTR_IS_VALID(data) ((NULL == data || NULL == (data)->ptr || 0 == (data)->size) ? false : true)
+#define ALDS_DATA_PTR_IS_VALID(data) ((NULL == (data) || NULL == (data)->ptr || 0 == (data)->size) ? false : true)
 
 #ifdef __cplusplus
 }

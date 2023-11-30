@@ -9,7 +9,7 @@
 static void * alds_malloc_default_local(size_t size);
 static void * alds_calloc_default_local(size_t size);
 static void * alds_realloc_default_local(void * ptr, size_t new_size);
-static void alds_free_default_local(void ** ptr);
+static void alds_free_default_local(void * ptr);
 
 static alds_alloc_t alloc = {.alds_malloc_cb = alds_malloc_default_local,
                              .alds_calloc_cb = alds_calloc_default_local,
@@ -28,9 +28,8 @@ static void * alds_realloc_default_local(void * ptr, size_t new_size) {
     return test_realloc(ptr, new_size);
 }
 
-static void alds_free_default_local(void ** ptr) {
-    test_free(*ptr);
-    *ptr = NULL;
+static void alds_free_default_local(void * ptr) {
+    test_free(ptr);
 }
 
 static void alds_dummy_log_cb(__attribute__((__unused__)) const char * const msg,

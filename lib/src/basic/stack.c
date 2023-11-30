@@ -3,7 +3,7 @@
 #include "alds/alds_log.h"
 #include <string.h>
 
-#define LOG_MODULE_NAME "stack.c"
+#define LOG_MODULE_NAME "stack_dynamic.c"
 
 alds_err_t alds_stack_init(alds_stack_t * ctx, alds_memmngr_t * memmngr, size_t item_quantity, size_t item_size) {
     if (NULL == ctx || NULL == memmngr || !alds_memmngr_is_valid(memmngr) || 0 == item_quantity || 0 == item_size) {
@@ -31,7 +31,7 @@ void alds_stack_deinit(alds_stack_t * ctx) {
         return;
     }
 
-    alds_memmngr_buffer_release(&ctx->mem_mngr, &ctx->buff);
+    alds_memmngr_buffer_release(&ctx->mem_mngr, ctx->buff);
 
     ctx->item_size = 0;
     ctx->items_quantity = 0;

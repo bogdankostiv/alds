@@ -6,7 +6,7 @@
 static void * alds_malloc_default(size_t size);
 static void * alds_calloc_default(size_t size);
 static void * alds_realloc_default(void * ptr, size_t new_size);
-static void alds_free_default(void ** ptr);
+static void alds_free_default(void * ptr);
 
 static alds_alloc_t default_alloc = {.alds_malloc_cb = alds_malloc_default,
                                      .alds_calloc_cb = alds_calloc_default,
@@ -28,7 +28,7 @@ alds_err_t alds_alloc_default_set(const alds_alloc_t * alloc) {
     return e_alds_err_success;
 }
 
-const alds_alloc_t * const alds_alloc_default_get(void) {
+const alds_alloc_t * alds_alloc_default_get(void) {
     return &default_alloc;
 }
 
@@ -66,9 +66,9 @@ void * alds_realloc_custom(const alds_alloc_t * alloc, void * ptr, size_t new_si
     }
 }
 
-void alds_free_custom(const alds_alloc_t * alloc, void ** ptr) {
+void alds_free_custom(const alds_alloc_t * alloc, void * ptr) {
     if (NULL != alloc->alds_malloc_cb) {
-        return alloc->alds_free_cb(ptr);
+        alloc->alds_free_cb(ptr);
     } else {
         ALDS_LOG_ERROR(LOG_MODULE_NAME, "alds_free_cb failed");
     }
@@ -86,7 +86,7 @@ void * alds_realloc(void * ptr, size_t new_size) {
     return alds_realloc_custom(alds_alloc_default_get(), ptr, new_size);
 }
 
-void alds_free(void ** ptr) {
+void alds_free(void * ptr) {
     alds_free_custom(alds_alloc_default_get(), ptr);
 }
 
@@ -102,7 +102,6 @@ static void * alds_realloc_default(void * ptr, size_t new_size) {
     return realloc(ptr, new_size);
 }
 
-static void alds_free_default(void ** ptr) {
-    free(*ptr);
-    *ptr = NULL;
+static void alds_free_default(void * ptr) {
+    free(ptr);
 }

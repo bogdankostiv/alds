@@ -46,6 +46,12 @@ alds_err_t alds_ll_delete(alds_ll_ctx_t * ctx, alds_ll_t * item) {
     }
 
     alds_ll_t * del = item;
+
+    // check if it's the last item of circular LL, clear head
+    if (ctx->head == del && ctx->is_circular && ctx->head->next == ctx->head) {
+        ctx->head = NULL;
+    }
+
     if (NULL != alds_ll_prev(del)) {
         alds_ll_prev(del)->next = del->next;
     }
@@ -57,13 +63,12 @@ alds_err_t alds_ll_delete(alds_ll_ctx_t * ctx, alds_ll_t * item) {
         ctx->head = item->next;
     }
 
-    // TODO release user's data here if needed
     if (NULL != ctx->data_free_cb) {
-        void * user_data = (void *)del->data;
-        (ctx->data_free_cb)(&user_data);
+        void * user_data = ALDS_LL_DATA_PTR(void *, del);
+        (ctx->data_free_cb)(user_data);
     }
 
-    ctx->alloc->alds_free_cb((void **)&del);
+    ctx->alloc->alds_free_cb((void *)del);
 
     return e_alds_err_success;
 }
@@ -88,9 +93,13 @@ alds_err_t alds_ll_prepend(alds_ll_ctx_t * ctx, void * data) {
             ctx->head->prev = ctx->head;
         }
     } else {
+        if (NULL != alds_ll_prev(ctx->head)) {
+            alds_ll_prev(ctx->head)->next = insert_item;
+        }
         insert_item->next = ctx->head;
         insert_item->prev = ctx->head->prev;
         ctx->head->prev = insert_item;
+
         ctx->head = insert_item;
     }
 
@@ -98,9 +107,13 @@ alds_err_t alds_ll_prepend(alds_ll_ctx_t * ctx, void * data) {
 }
 
 alds_err_t alds_ll_insert(alds_ll_ctx_t * ctx, alds_ll_t * item, void * data) {
-    if (NULL == ctx || NULL == item || NULL == data) {
+    if (NULL == ctx || NULL == data) {
         ALDS_LOG_ERROR_INVALID_ARG(MODULE_NAME);
         return e_alds_err_arg;
+    }
+
+    if (NULL == item) {
+        return alds_ll_prepend(ctx, data);
     }
 
     alds_ll_t * insert_item = ctx->alloc->alds_calloc_cb(ctx->data_size + OFFSETOF(alds_ll_t, data));

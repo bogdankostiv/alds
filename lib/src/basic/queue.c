@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define LOG_MODULE_NAME "queue.c"
+#define LOG_MODULE_NAME "queue_dynamic.c"
 
 static bool is_empty(alds_queue_t * ctx);
 static bool is_full(alds_queue_t * ctx);
@@ -51,7 +51,7 @@ void alds_queue_deinit(alds_queue_t * ctx) {
         return;
     }
 
-    alds_memmngr_buffer_release(&ctx->mem_mngr, &ctx->buff);
+    alds_memmngr_buffer_release(&ctx->mem_mngr, ctx->buff);
 
     ctx->item_size = 0;
     ctx->item_index_head = 0;

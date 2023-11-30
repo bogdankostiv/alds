@@ -5,14 +5,19 @@
 
 int main(void) {
 
-    ALDS_LOG_INFO("Demo APP", "Demo App started\n");
+    ALDS_LOG_INFO("Demo APP", "Demo App started\n\n");
 
-    stack();
-    stack_static();
-    queue();
-    queue_static();
+    stack_dynamic();
+    stack_fixed();
 
-    ALDS_LOG_INFO("Demo APP", "Demo App finished\n");
+    queue_dynamic();
+    queue_fixed();
+
+    ll_simple();
+    ll_custom_alloc_data();
+    ll_custom_alds_data();
+
+    ALDS_LOG_INFO("Demo APP", "Demo App finished\n\n");
 
     return 0;
 }
